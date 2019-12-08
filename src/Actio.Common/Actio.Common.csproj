@@ -4,4 +4,13 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="microsoft.aspnetcore" Version="2.2.0" />
+    <PackageReference Include="microsoft.aspnetcore.hosting" Version="2.2.7" />
+    <PackageReference Include="rawrabbit" Version="2.0.0-rc5" />
+    <PackageReference Include="rawrabbit.dependencyinjection.servicecollection" Version="2.0.0-rc5" />
+    <PackageReference Include="rawrabbit.operations.publish" Version="2.0.0-rc5" />
+    <PackageReference Include="rawrabbit.operations.subscribe" Version="2.0.0-rc5" />
+  </ItemGroup>
+
 </Project>
