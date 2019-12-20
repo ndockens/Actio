@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Actio.Common.RabbitMq;
 using Actio.Common.Commands;
 using Actio.Common.Handlers;
+using Actio.Common.Mongo;
 
 namespace Actio.Services.Activities
 {
@@ -29,6 +30,7 @@ namespace Actio.Services.Activities
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddMongoDB(Configuration);
             services.AddRabbitMq(Configuration);
             services.AddTransient<ICommandHandler<CreateActivity>, CreateActivityHandler>();
         }
