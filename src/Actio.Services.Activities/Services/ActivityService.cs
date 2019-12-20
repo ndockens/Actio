@@ -32,3 +32,4 @@ namespace Actio.Services.Activities.Services
             await _activityRepository.AddAsync(activity);
         }
     }
+}

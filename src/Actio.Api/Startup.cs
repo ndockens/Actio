@@ -12,7 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Actio.Common.RabbitMq;
 using Actio.Common.Events;
-using Actio.Common.Handlers;
+using Actio.Api.Handlers;
 
 namespace Actio.Api
 {

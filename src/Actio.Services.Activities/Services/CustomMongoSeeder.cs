@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,11 +12,14 @@ namespace Actio.Services.Activities.Services
     public class CustomMongoSeeder : MongoSeeder
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IActivityRepository _activityRepository;
 
         public CustomMongoSeeder(IMongoDatabase database,
-            ICategoryRepository categoryRepository) : base(database)
+            ICategoryRepository categoryRepository,
+            IActivityRepository activityRepository) : base(database)
         {
             _categoryRepository = categoryRepository;
+            _activityRepository = activityRepository;
         }
 
         protected override async Task CustomSeedAsync()
