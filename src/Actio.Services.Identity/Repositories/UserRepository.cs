@@ -29,7 +29,7 @@ namespace Actio.Services.Identity.Repositories
         {
             return await Collection
                 .AsQueryable()
-                .FirstOrDefaultAsync(x => x.Email == email);
+                .FirstOrDefaultAsync(x => x.Email == email.ToLowerInvariant());
         }
 
         public async Task AddAsync(User user)

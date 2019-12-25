@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Actio.Common.Mongo;
+using Actio.Services.Identity.Domain.Repositories;
 using Actio.Services.Identity.Domain.Services;
+using Actio.Services.Identity.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,7 +30,9 @@ namespace Actio.Services.Identity
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddMongoDB(Configuration);
             services.AddScoped<IEncrypter, Encrypter>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +53,10 @@ namespace Actio.Services.Identity
             {
                 endpoints.MapControllers();
             });
+
+            app.ApplicationServices
+                .GetService<IDatabaseInitializer>()
+                .InitializeAsync();
         }
     }
 }
