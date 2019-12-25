@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System;
 using Actio.Common.Exceptions;
+using Actio.Services.Identity.Domain.Services;
 
 namespace Actio.Services.Identity.Domain.Models
 {
@@ -30,6 +31,20 @@ namespace Actio.Services.Identity.Domain.Models
             Email = email.ToLowerInvariant();
             Name = name;
             CreatedAt = DateTime.UtcNow;
+        }
+
+        public void SetPassword(string password, IEncrypter encrypter)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+                throw new ActioException("empty_password", "Password cannot be null or empty.");
+
+            Salt = encrypter.GetSalt();
+            Password = encrypter.GetHash(password, Salt);
+        }
+
+        public bool ValidatePassword(string password, IEncrypter encrypter)
+        {
+            return Password.Equals(encrypter.GetHash(password, Salt));
         }
     }
 }
