@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RawRabbit;
 using Actio.Common.Commands;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Actio.Api.Controllers
 {
@@ -24,6 +26,13 @@ namespace Actio.Api.Controllers
             await _busClient.PublishAsync(command);
 
             return Accepted($"activities/{command.Id}");
+        }
+
+        [HttpGet("")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult Get()
+        {
+            return Content("SECURED");
         }
     }
 }
