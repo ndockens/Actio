@@ -14,6 +14,8 @@ using Actio.Common.RabbitMq;
 using Actio.Common.Events;
 using Actio.Api.Handlers;
 using Actio.Common.Auth;
+using Actio.Api.Repositories;
+using Actio.Common.Mongo;
 
 namespace Actio.Api
 {
@@ -31,7 +33,9 @@ namespace Actio.Api
         {
             services.AddControllers();
             services.AddJwt(Configuration);
+            services.AddMongoDB(Configuration);
             services.AddRabbitMq(Configuration);
+            services.AddSingleton<IActivityRepository, ActivityRepository>();
             services.AddTransient<IEventHandler<ActivityCreated>, ActivityCreatedHandler>();
         }
 
