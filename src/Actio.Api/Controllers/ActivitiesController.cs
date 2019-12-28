@@ -11,7 +11,7 @@ using Actio.Common.Auth;
 namespace Actio.Api.Controllers
 {
     [Route("[controller]")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ActivitiesController : Controller
     {
         private readonly IBusClient _busClient;

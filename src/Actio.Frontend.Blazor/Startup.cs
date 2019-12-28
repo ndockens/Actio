@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Actio.Frontend.Blazor.Data;
+using Actio.Frontend.Blazor.Services;
 
 namespace Actio.Frontend.Blazor
 {
@@ -28,7 +29,10 @@ namespace Actio.Frontend.Blazor
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddHttpClient();
             services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<IActivityService, ActivityService>();
+            services.AddSingleton<IAuthService, AuthService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
