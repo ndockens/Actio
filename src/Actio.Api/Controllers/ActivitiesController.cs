@@ -1,3 +1,5 @@
+using System.Security.Cryptography.X509Certificates;
+using System.Linq;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +13,7 @@ using Actio.Common.Auth;
 namespace Actio.Api.Controllers
 {
     [Route("[controller]")]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ActivitiesController : Controller
     {
         private readonly IBusClient _busClient;
@@ -28,9 +30,10 @@ namespace Actio.Api.Controllers
         public async Task<IActionResult> Get()
         {
             var userId = Guid.Parse(User.Identity.Name);
-            var activities = await _activityRepository.BrowseAsync(userId);
+            var activities = await _activityRepository
+                .BrowseAsync(userId);
 
-            return Json(activities);
+            return Json(activities.Select(x => new { x.Id, x.Name, x.Category, x.CreatedAt }));
         }
 
         [HttpGet("{id}")]
@@ -38,6 +41,8 @@ namespace Actio.Api.Controllers
         {
             var userId = Guid.Parse(User.Identity.Name);
             var activity = await _activityRepository.GetAsync(id);
+
+            if (activity == null) return NotFound();
 
             if (userId != activity.UserId) return Unauthorized();
 
@@ -49,6 +54,7 @@ namespace Actio.Api.Controllers
         {
             command.Id = Guid.NewGuid();
             command.CreatedAt = DateTime.UtcNow;
+            command.UserId = Guid.Parse(User.Identity.Name);
             await _busClient.PublishAsync(command);
 
             return Accepted($"activities/{command.Id}");
