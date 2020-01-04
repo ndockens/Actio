@@ -1,4 +1,16 @@
 # Docker
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: './Actio.Api.csproj'
+    arguments: '-c Release -o ./bin/Docker'
+    zipAfterPublish: false
+    modifyOutputPath: false
+    workingDirectory: './src/Actio.Api'
 # Build and push an image to Azure Container Registry
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
