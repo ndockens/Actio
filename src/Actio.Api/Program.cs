@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Actio.Common.Services;
+using Actio.Common.Events;
 
 namespace Actio.Api
 {
@@ -13,14 +15,11 @@ namespace Actio.Api
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            ServiceHost.Create<Startup>(args)
+                .UseRabbitMq()
+                .SubscribeToEvent<ActivityCreated>()
+                .Build()
+                .Run();
         }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
     }
 }

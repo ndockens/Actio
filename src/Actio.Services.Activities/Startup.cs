@@ -10,6 +10,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Actio.Common.RabbitMq;
+using Actio.Common.Commands;
+using Actio.Common.Mongo;
+using Actio.Services.Activities.Domain.Repositories;
+using Actio.Services.Activities.Repositories;
+using Actio.Services.Activities.Services;
+using Actio.Services.Activities.Handlers;
 
 namespace Actio.Services.Activities
 {
@@ -26,6 +33,13 @@ namespace Actio.Services.Activities
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddMongoDB(Configuration);
+            services.AddRabbitMq(Configuration);
+            services.AddSingleton<ICommandHandler<CreateActivity>, CreateActivityHandler>();
+            services.AddSingleton<IActivityRepository, ActivityRepository>();
+            services.AddSingleton<ICategoryRepository, CategoryRepository>();
+            services.AddSingleton<IDatabaseSeeder, CustomMongoSeeder>();
+            services.AddSingleton<IActivityService, ActivityService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +60,10 @@ namespace Actio.Services.Activities
             {
                 endpoints.MapControllers();
             });
+
+            app.ApplicationServices
+                .GetService<IDatabaseInitializer>()
+                .InitializeAsync();
         }
     }
 }
