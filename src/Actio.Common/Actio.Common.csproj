@@ -4,6 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="microsoft.aspnetcore" Version="2.2.0" />
     <PackageReference Include="microsoft.aspnetcore.authentication.jwtbearer" Version="2.2.0" />
